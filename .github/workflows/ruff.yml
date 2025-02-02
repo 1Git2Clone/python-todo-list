@@ -16,10 +16,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install uv
           uv pip install ruff --system
-      - name: Run Ruff in `src/`
+
+      - name: Set up virtual environment
         run: |
           uv venv
+
+      - name: Activate virtual environment
+        run: |
           source .venv/bin/actiate
           if [ -f requirements.txt ]; then uv pip install -r requirements.txt; fi
           if [ -f pyproject.toml ]; then uv pip install -r pyproject.toml; fi
+
+      - name: Run Ruff in `src/`
+        run: |
           ruff check ./src/**/*.py
